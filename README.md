@@ -33,3 +33,13 @@ Output description ([source](https://4pda.ru/forum/index.php?showtopic=535287&st
 7 [INV]
 8 [IES]
 ```
+### LCM (Dump LCD panel / controller model)
+```
+cat /proc/cmdline
+```
+Example outputs:
+```
+console=ttyMT3,921600n1 vmalloc=320M lcm=1-lg4573b fps=5965 pl_t=582 lk_t=5249
+console=ttyMT3,921600n1 vmalloc=506M slub_max_order=0 lcm=1-hx8379a_dsi_vdo_bidirectional fps=5300 pl_t=3466 lk_t=3184
+```
+See the `lcm=` parameter, remove leading digit and dash. LCM names from example outputs are `lg4573b` and `hx8379a_dsi_vdo_bidirectional` respectively.
