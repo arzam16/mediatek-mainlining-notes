@@ -1,2 +1,2 @@
-# mediatek-mainline-notes
-My notes, tips and other thoughts on mainlining old Mediatek-based devices mt65xx / kernel 3.4
+# Mediatek mainlining notes
+When I tried to mainline MTT6577, I've read tons of forum posts, chat rooms and read a lot of guides on the internet. This repository contains my notes, tips and other thoughts which could be useful for bringing support for old Mediatek devices into mainline Linux kernel. The infomation should be appliable for mt65xx _32-bit_ CPUs running linux kernel v3.4. I have never worked worked on 3.10 and 3.18 kernels. If you have something to add, feel free to make a pull request or just leave a comment.
