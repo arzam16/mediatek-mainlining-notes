@@ -1,0 +1,11 @@
+on: push
+name: TOC Generator
+jobs:
+  toc:
+    name: TOC Generator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: technote-space/toc-generator@v4
+        with:
+          FOLDING: 'false'
+          COMMIT_MESSAGE: '[Github Action] Update TOC'
