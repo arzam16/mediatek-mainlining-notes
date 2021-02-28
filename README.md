@@ -1,6 +1,9 @@
 # Mediatek mainlining notes
 When I tried to mainline MT6577, I've read tons of forum posts, chat rooms and read a lot of guides on the internet. This repository contains my notes, tips and other thoughts which could be useful for bringing support for old Mediatek devices into mainline Linux kernel. The infomation should be appliable for mt65xx _32-bit_ CPUs running linux kernel v3.4. I have never worked worked on 3.10 and 3.18 kernels. If you have something to add, feel free to make a pull request or just leave a comment.
 
+<!-- START doctoc -->
+<!-- END doctoc -->
+
 # Current state of MT65xx in mainline Linux kernel
 At the time of writing, the latest Linux kernel version is 5.11. The state of mt65xx devices is very bleak. **Only basic hardware works**: CPU cores, generic interrupt controller, timer, UART, (sometimes) watchdog.
 
