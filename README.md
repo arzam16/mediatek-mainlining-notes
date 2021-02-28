@@ -1,6 +1,16 @@
 # Mediatek mainlining notes
 When I tried to mainline MT6577, I've read tons of forum posts, chat rooms and read a lot of guides on the internet. This repository contains my notes, tips and other thoughts which could be useful for bringing support for old Mediatek devices into mainline Linux kernel. The infomation should be appliable for mt65xx _32-bit_ CPUs running linux kernel v3.4. I have never worked worked on 3.10 and 3.18 kernels. If you have something to add, feel free to make a pull request or just leave a comment.
 
+## Current state of MT65xx in mainline Linux kernel
+At the time of writing, the latest Linux kernel version is 5.11. The state of mt65xx devices is very bleak. **Only basic hardware works**: CPU cores, generic interrupt controller, timer, UART, (sometimes) watchdog.
+
+There's **no clock driver** for these chipsets which is the most limiting factor as of now. With working clocks, it would be theoretically possible to bring this hardware to life:
+* MMC (internal memory and microSD card support)
+* I2C (implementing this will make a lot of devices work)
+* MIPI subsystem (display stuff stuff)
+
+There's also **no GPIO and pinctrl** stuff for mt65xx. Unless you can write the drivers yourself, do not expect your mainlined device to be of any worth.
+
 ## Dumping information from running device
 _It's implied your device has root and busybox, and is connected to your PC via ADB, and the shell is running_
 
