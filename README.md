@@ -171,7 +171,7 @@ mediatek/platform/mt6572/kernel/core/include/mach/mt_cpufreq.h:#define DVFS_V1  
 mediatek/platform/mt6572/kernel/core/include/mach/mt_cpufreq.h:#define DVFS_MIN_VCORE       (1150)
 ```
 ### MT6577 + MT6329 PMIC
-`mediatek/platform/mt6572/kernel/core/mt_cpufreq.c` has the following macro:
+`mediatek/platform/mt6577/kernel/core/mt_cpufreq.c` has the following macro:
 ```
 #define OP(cpufreq)         \
 {                           \
