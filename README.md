@@ -13,6 +13,8 @@ When I tried to mainline MT6577, I've read tons of forum posts, chat rooms and r
   - [LCM (Dump LCD panel / controller model)](#lcm-dump-lcd-panel--controller-model)
   - [PMIC](#pmic)
 - [Searching in the source code](#searching-in-the-source-code)
+  - [CPU Operating points](#cpu-operating-points-1)
+    - [MT6572](#mt6572)
   - [Register addresses](#register-addresses)
 - [Debugging over UART](#debugging-over-uart)
   - [1. Visual inspection](#1-visual-inspection)
