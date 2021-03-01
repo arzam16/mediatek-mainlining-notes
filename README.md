@@ -15,6 +15,7 @@ When I tried to mainline MT6577, I've read tons of forum posts, chat rooms and r
 - [Searching in the source code](#searching-in-the-source-code)
   - [CPU Operating points](#cpu-operating-points-1)
     - [MT6572](#mt6572)
+    - [MT6577 + MT6329 PMIC](#mt6577--mt6329-pmic)
   - [Register addresses](#register-addresses)
 - [Debugging over UART](#debugging-over-uart)
   - [1. Visual inspection](#1-visual-inspection)
