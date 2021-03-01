@@ -1,8 +1,33 @@
 # Mediatek mainlining notes
 When I tried to mainline MT6577, I've read tons of forum posts, chat rooms and read a lot of guides on the internet. This repository contains my notes, tips and other thoughts which could be useful for bringing support for old Mediatek devices into mainline Linux kernel. The infomation should be appliable for mt65xx _32-bit_ CPUs running linux kernel v3.4. I have never worked worked on 3.10 and 3.18 kernels. If you have something to add, feel free to make a pull request or just leave a comment.
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Current state of MT65xx in mainline Linux kernel](#current-state-of-mt65xx-in-mainline-linux-kernel)
+- [Dumping information from running device](#dumping-information-from-running-device)
+  - [CPU Operating points](#cpu-operating-points)
+  - [GPIO Pins](#gpio-pins)
+  - [I2C](#i2c)
+  - [LCM (Dump LCD panel / controller model)](#lcm-dump-lcd-panel--controller-model)
+  - [PMIC](#pmic)
+- [Searching in the source code](#searching-in-the-source-code)
+  - [Register addresses](#register-addresses)
+- [Debugging over UART](#debugging-over-uart)
+  - [1. Visual inspection](#1-visual-inspection)
+  - [2. Schematics](#2-schematics)
+    - [2.1 General schematics](#21-general-schematics)
+    - [2.2 Board schematic / board view file](#22-board-schematic--board-view-file)
+  - [3. Asking on the internet](#3-asking-on-the-internet)
+  - [Connecting to UART](#connecting-to-uart)
+    - [Hardware](#hardware)
+    - [Software](#software)
+    - [UART description](#uart-description)
+    - [Output typical to Boot ROM and Preloader (UART1)](#output-typical-to-boot-rom-and-preloader-uart1)
+    - [Output typical to U-Boot and Linux kernel (UART4)](#output-typical-to-u-boot-and-linux-kernel-uart4)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Current state of MT65xx in mainline Linux kernel
 At the time of writing, the latest Linux kernel version is 5.11. The state of mt65xx devices is very bleak. **Only basic hardware works**: CPU cores, generic interrupt controller, timer, UART, (sometimes) watchdog.
