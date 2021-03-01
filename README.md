@@ -132,7 +132,11 @@ Example output:
 _It's great if there is a public kernel source code for your SoC. If you have a kernel source code for your exact device model, you can do a bit more. Usually old mediatek kernels have directory structure like [this](https://github.com/rex-xxx/mt6572_x201/tree/f87ef7407576b4fd190c76287e92b2e9886ca484), or [this](https://github.com/arzam16/mt6577_kernel_Acer_B1_A71). Newer kernels have [this](https://github.com/WikoGeek-Unofficial/android_kernel_wiko_mt6577) directory structure. Anyway, the `mediatek/platform/mt65xx` directory is what we need._
 ## CPU Operating points
 **Note**: some platforms only list frequencies without voltages. If you know how to find voltage values please let me know.
-**Warning!** Do not forget to convert millivolts to microvolts for DTS!
+
+**Note**: DVFS stands for "Dynamic Voltage Frequency Scaling"
+
+**⚠️ Warning!** Do not forget to convert millivolts to microvolts for DTS!
+
 ### MT6572
 `mediatek/platform/mt6572/kernel/core/mt_cpufreq.c` has the following macro:
 ```
@@ -144,10 +148,11 @@ _It's great if there is a public kernel source code for your SoC. If you have a 
 ```
 Find usages of this macro. Example:
 ```
-static struct mt_cpu_freq_info mt6572_freqs_e1[] = {
-    ...
+static struct mt_cpu_freq_info mt6572_freqs_e1_1[] = {
     OP(DVFS_D3, DVFS_V0),
-    ...
+    OP(DVFS_F1, DVFS_V1),
+    OP(DVFS_F2, DVFS_V1),
+    OP(DVFS_F3, DVFS_V1),
 };
 ```
 Here we can see only constants prefixed with `DVFS_` are used. Search for their definitions:
@@ -164,6 +169,27 @@ mediatek/platform/mt6572/kernel/core/include/mach/mt_cpufreq.h:#define DVFS_V0  
 mediatek/platform/mt6572/kernel/core/include/mach/mt_cpufreq.h:#define DVFS_V1              (1150)  // mV
 mediatek/platform/mt6572/kernel/core/include/mach/mt_cpufreq.h:#define DVFS_MIN_VCORE       (1150)
 ```
+### MT6577 + MT6329 PMIC
+`mediatek/platform/mt6572/kernel/core/mt_cpufreq.c` has the following macro:
+```
+#define OP(cpufreq)         \
+{                           \
+    .cpufreq_mhz = cpufreq, \
+}
+```
+The voltages are not specified here! However, by analyzing this file it's possible to find how Linux kernel interacts with PMIC by writing values which depend on chosen frequency:
+```
+  if (freq_new == DVFS_F1) ... DRV_WriteReg32(SC_AP_DVFS_CON, ((DRV_Reg32(SC_AP_DVFS_CON) & 0xFFFFFFFC) | 0x00));
+  else if (freq_new == DVFS_F2) ... DRV_WriteReg32(SC_AP_DVFS_CON, ((DRV_Reg32(SC_AP_DVFS_CON) & 0xFFFFFFFC) | 0x03));
+  else if (freq_new == DVFS_F3) ... DRV_WriteReg32(SC_AP_DVFS_CON, ((DRV_Reg32(SC_AP_DVFS_CON) & 0xFFFFFFFC) | 0x03));
+  else if (freq_new == DVFS_F4) ... DRV_WriteReg32(SC_AP_DVFS_CON, ((DRV_Reg32(SC_AP_DVFS_CON) & 0xFFFFFFFC) | 0x03));
+```
+It's quite similar to how MT6572 (see above) uses one voltage for the highest frequency, and the other voltage for all other frequencies. Most likely `0x00` and `0x03` values mean some voltage setting. Some PDF from the internet says:
+
+_Before the CA9 clock rate speeds up, the software needs to program the external PMIC. VPROC from companion PMIC MT6329 can be programmed by I2C interface, or VPROC can be controlled by pin PMUCTRL1/0 (DVS fast control) from MT6577. Please refer to MT6329 datasheet for detailed programming guides. **There is the 4-step setup by values 0x0, 0x1, 0x2 and 0x3, standing for voltages from low to high**._
+
+But I couldn't figure out what voltage does each value represent.
+
 ## Register addresses
 Mainlining a device involves writing a Device Tree Source file which requires you to know exact register addresses. Mediatek source code uses _virtual_ register addresses, but DTS needs _physical_ addresses. To solve this, you need to look in `mediatek/platform/mt65xx/kernel/core/include/mach/memory.h` and search for `IO_VIRT_TO_PHYS` macro there.
 
