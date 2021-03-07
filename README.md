@@ -210,6 +210,29 @@ After virtual to physical address conversion is sorted out, it's safe to continu
 8. `mediatek/platform/mt65xx/kernel/core/include/mach/mt_emi_mpu.h`
 
 Data gathered from the first 2 files is usually enough to boot basic mainline kernel.
+# Flashing with SP Flash Tool in Windows virtual machine
+## Notes
+* Device connects as USB 2.0 so if you're using Virtual Box, corresponding Extension Pack is required.
+* If VirtualBox doesn't detect any USB devices at all, make sure the current user is in `vboxusers` group.
+
+
+## Table of USB devices
+**Note**: Following configuration has been tested on MT6577 and MT6589 devices. Please comment if you have other SoC and it uses different configuration. See below for help getting the parameters.
+
+| /            | Device #1                 | Device #2     | Device #3                     |
+|--------------|---------------------------|---------------|-------------------------------|
+| Name         | MediaTek MT65xx Preloader | MediaTek VCOM | MediaTek MT65xx Android Phone |
+| Vendor ID    | 0e8d                      | 0e8d          | 17ef                          |
+| Product ID   | 2000                      | 0003          | 74ed                          |
+| Revision     |                           |               | ffff                          |
+| Manufacturer | MediaTek                  | MediaTek      | MediaTek                      |
+| Product      | MT65xx Preloader          |               | MT65xx Android Phone          |
+| Serial No.   |                           |               |                               |
+| Port         |                           |               |                               |
+| Remote       | No                        | No            | No                            |
+
+## Getting the USB parameters
+Running `dmesg -w | fgrep usb` (at least on Debian derivatives) shows USB device info upon connecting. This should be enough.
 # Debugging over UART
 UART is one of the best tools for gathering information and even communicating with your device. Usually a single SoC has multiple UARTs for various purposes. For example, one of UARTs could be used to control the wireless hardware (Wi-Fi, Bluetooth, GPS, Radio...). Despite its advantages, there are several drawbacks. First, there's need to tear down the device to access UART. Second, you will need a soldering iron with thin tip and some good flux, _and_ skills to use them. Third, most Mediatek devices have UART pins exposed on the motherboard, however identifying them might not be the easiest task. I will go through some ways to find UART pads, Fly IQ430 (MT6577) will be used as an example.
 ## 1. Visual inspection
