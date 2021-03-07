@@ -195,7 +195,7 @@ _Before the CA9 clock rate speeds up, the software needs to program the external
 
 But I couldn't figure out what voltage does each value represent.
 
-## Register addresses
+## Hardware register addresses
 Mainlining a device involves writing a Device Tree Source file which requires you to know exact register addresses. Mediatek source code uses _virtual_ register addresses, but DTS needs _physical_ addresses. To solve this, you need to look in `mediatek/platform/mt65xx/kernel/core/include/mach/memory.h` and search for `IO_VIRT_TO_PHYS` macro there.
 
 Example ([source](https://github.com/arzam16/mt6577_kernel_Acer_B1_A71/blob/67a47ce448ed2dad6004f1d5244d5fc26a0907ef/mediatek/platform/mt6577/kernel/core/include/mach/memory.h#L20)):
@@ -214,6 +214,12 @@ After virtual to physical address conversion is sorted out, it's safe to continu
 8. `mediatek/platform/mt65xx/kernel/core/include/mach/mt_emi_mpu.h`
 
 Data gathered from the first 2 files is usually enough to boot basic mainline kernel.
+## IRQ (Interrupt request) IDs
+They are required for various hardware in dts(i), see file `mediatek/platform/mt65xx/kernel/core/include/mach/mt_irq.h`. The addendum of `GIC_*_SIGNALS` is the IRQ number, example:
+```
+#define MT_TS_IRQ_ID    (GIC_PRIVATE_SIGNALS + 21) 
+                                               ^^--- IRQ ID
+```
 # Flashing with SP Flash Tool in Windows virtual machine
 ## Notes
 * Device connects as USB 2.0 so if you're using Virtual Box, corresponding Extension Pack is required.
